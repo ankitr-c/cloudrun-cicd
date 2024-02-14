@@ -24,7 +24,8 @@ pipeline {
             steps {
                 echo 'Inside Deploy'
                 script {
-                    sh "gcloud run deploy ${params.SERVICE_NAME} --image=${params.IMAGE} --platform=managed --region=${params.REGION} --port=${params.PORT}"
+                    sh "gcloud run deploy ${params.SERVICE_NAME} --image=${params.IMAGE} --platform=managed --region=${params.REGION} --port=${params.PORT} --allow-unauthenticated"
+                    // sh "gcloud run deploy ${params.SERVICE_NAME} --image=${params.IMAGE} --platform=managed --region=${params.REGION} --port=${params.PORT}"
                 }
             }
         }
@@ -33,7 +34,7 @@ pipeline {
             steps {
                 echo 'Inside Allow allUsers'
                 script {
-                    sh "gcloud run services add-iam-policy-binding ${params.SERVICE_NAME} --region=${params.REGION} --member='allUsers' --role='roles/run.invoker'"
+                    // sh "gcloud run services add-iam-policy-binding ${params.SERVICE_NAME} --region=${params.REGION} --member='allUsers' --role='roles/run.invoker'"
                 }
             }
         }
