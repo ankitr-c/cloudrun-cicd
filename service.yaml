@@ -1,0 +1,12 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: calcapp
+spec:
+  template:
+    spec:
+      containers:
+        - image: docker pull ankitraut0987/calc-app:1.0.0
+          ports:
+            - name: contport
+              containerPort: 8000
