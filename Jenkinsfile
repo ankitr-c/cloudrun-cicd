@@ -1,5 +1,10 @@
 pipeline {
     agent any
+    environment {
+                REGION = 'us-central1'
+                PORT = '8000'
+                SERVICE_NAME = 'calc-app'
+    }
 
     stages {
         stage('Authenticate') {
@@ -14,11 +19,6 @@ pipeline {
         }
 
         stage('Deploy') {
-            environment {
-                REGION = 'us-central1'
-                PORT = '8000'
-                SERVICE_NAME = 'calc-app'
-            }
             steps {
                 echo 'Inside Deploy'
                 script {
@@ -28,9 +28,6 @@ pipeline {
         }
 
         stage('Allow allUsers') {
-            environment {
-                REGION = 'us-central1'
-            }
             steps {
                 echo 'Inside Allow allUsers'
                 script {
