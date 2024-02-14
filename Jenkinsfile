@@ -1,9 +1,9 @@
 pipeline {
     agent any
     environment {
-                REGION = 'us-central1'
-                PORT = '8000'
-                SERVICE_NAME = 'calc-app'
+                REGION = params.REGION
+                PORT = params.PORT
+                SERVICE_NAME = params.SERVICE_NAME
     }
 
     stages {
