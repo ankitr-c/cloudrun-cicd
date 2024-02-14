@@ -1,9 +1,11 @@
 pipeline {
     agent any
-    environment {
-                REGION = params.REGION
-                PORT = params.PORT
-                SERVICE_NAME = params.SERVICE_NAME
+
+    parameters {
+        string(name: 'REGION', defaultValue: 'us-central1', description: 'Region for Cloud Run service deployment')
+        string(name: 'PORT', defaultValue: '8000', description: 'Port number for the deployed container')
+        string(name: 'SERVICE_NAME', defaultValue: 'your-service-name', description: 'Name of the Cloud Run service')
+        string(name: 'IMAGE', defaultValue: 'ankitraut0987/calc-app:1.0.0', description: 'Docker image to deploy to Cloud Run')
     }
 
     stages {
@@ -22,7 +24,7 @@ pipeline {
             steps {
                 echo 'Inside Deploy'
                 script {
-                    sh "gcloud run deploy ${SERVICE_NAME} --image=ankitraut0987/calc-app:1.0.0 --platform=managed --region=${REGION} --port=${PORT}"
+                    sh "gcloud run deploy ${params.SERVICE_NAME} --image=${params.IMAGE} --platform=managed --region=${params.REGION} --port=${params.PORT}"
                 }
             }
         }
@@ -31,7 +33,7 @@ pipeline {
             steps {
                 echo 'Inside Allow allUsers'
                 script {
-                    sh "gcloud run services add-iam-policy-binding ${SERVICE_NAME} --region=${REGION} --member='allUsers' --role='roles/run.invoker'"
+                    sh "gcloud run services add-iam-policy-binding ${params.SERVICE_NAME} --region=${params.REGION} --member='allUsers' --role='roles/run.invoker'"
                 }
             }
         }
