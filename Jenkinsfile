@@ -1,25 +1,40 @@
 pipeline {
     agent any
+
     stages {
         stage('Authenticate') {
             steps {
-                sh '''
-          gcloud auth activate-service-account --key-file="$GCLOUD_CREDS"
-        '''
+                echo 'Inside Authentication'
+                script {
+                    withCredentials([file(credentialsId: 'cloudrun-cicd', variable: 'creds')]) {
+                        sh "gcloud auth activate-service-account --key-file=${creds}"
+                    }
+                }
             }
         }
-        stage('Install service') {
+
+        stage('Deploy') {
+            environment {
+                REGION = 'us-central1'
+                PORT = '8000'
+            }
             steps {
-                sh '''
-          gcloud run services replace service.yaml --platform='managed' --region='us-central1'
-        '''
+                echo 'Inside Deploy'
+                script {
+                    sh "gcloud run deploy --image=ankitraut0987/calc-app:1.0.0 --platform=managed --region=${REGION} --port=${PORT}"
+                }
             }
         }
+
         stage('Allow allUsers') {
+            environment {
+                REGION = 'us-central1'
+            }
             steps {
-                sh '''
-          gcloud run services add-iam-policy-binding hello --region='us-central1' --member='allUsers' --role='roles/run.invoker'
-        '''
+                echo 'Inside Allow allUsers'
+                script {
+                    sh "gcloud run services add-iam-policy-binding hello --region=${REGION} --member='allUsers' --role='roles/run.invoker'"
+                }
             }
         }
     }
