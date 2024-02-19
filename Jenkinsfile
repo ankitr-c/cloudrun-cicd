@@ -13,7 +13,7 @@ pipeline {
             steps {
                 echo 'Inside Authentication'
                 script {
-                    withCredentials([file(credentialsId: 'cloudrun-cicd', variable: 'creds')]) {
+                    withCredentials([file(credentialsId: 'cicd-key', variable: 'creds')]) {
                         sh "gcloud auth activate-service-account --key-file=${creds}"
                     }
                 }
