@@ -29,14 +29,14 @@ pipeline {
             }
         }
 
-    // stage('Allow allUsers') {
-    //     steps {
-    //         echo 'Inside Allow allUsers'
-    //         script {
-    //             sh'pwd'
-    //         // sh "gcloud run services add-iam-policy-binding ${params.SERVICE_NAME} --region=${params.REGION} --member='allUsers' --role='roles/run.invoker'"
-    //         }
-    //     }
-    // }
+        stage('Allow allUsers') {
+            steps {
+                echo 'Inside Allow allUsers'
+                script {
+                    sh'pwd'
+                    sh "gcloud run services add-iam-policy-binding ${params.SERVICE_NAME} --region=${params.REGION} --member='allUsers' --role='roles/run.invoker'"
+                }
+            }
+        }
     }
 }
