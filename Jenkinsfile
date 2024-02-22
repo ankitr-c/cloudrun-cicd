@@ -24,7 +24,7 @@ pipeline {
             steps {
                 echo 'Inside Deploy'
                 script {
-                    sh "gcloud run deploy ${params.SERVICE_NAME} --image=${params.IMAGE} --platform=managed --region=${params.REGION} --port=${params.PORT} --allow-unauthenticated"
+                    sh "gcloud run deploy ${params.SERVICE_NAME} --image=${params.IMAGE} --region=${params.REGION} --port=${params.PORT}  --platform=managed --allow-unauthenticated"
                 }
             }
         }
